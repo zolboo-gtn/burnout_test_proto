@@ -2,7 +2,7 @@ import { openai } from "@ai-sdk/openai";
 import { Agent } from "@mastra/core/agent";
 import { Memory } from "@mastra/memory";
 
-import { libSqlStorage } from "../storage";
+import { postgresStorage } from "../storage";
 
 export const burnoutTestAgent = new Agent({
   name: "Burnout Test",
@@ -64,6 +64,6 @@ Your job is to:
 `,
   model: openai("gpt-4o"),
   memory: new Memory({
-    storage: libSqlStorage,
+    storage: postgresStorage,
   }),
 });
