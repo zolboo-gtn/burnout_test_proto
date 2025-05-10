@@ -16,6 +16,9 @@ export default function BurnoutChat() {
   const { messages, input, append, handleInputChange, handleSubmit, status } =
     useChat({
       api: "/api/burnout_test",
+      headers: {
+        Authorization: "Basic " + btoa(`lambda:global`),
+      },
       onFinish: (message) => {
         const stage = message.content.match(/Stage: (\d+)/)?.[1];
         const question = message.content.match(/Question: (\d+)/)?.[1];
