@@ -41,7 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 # mastra
-*.db
-*.db-shm
-*.db-wal
+# *.db
+# *.db-shm
+# *.db-wal
 
