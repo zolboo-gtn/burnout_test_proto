@@ -2,14 +2,8 @@
 
 import { useChat } from "@ai-sdk/react";
 import type React from "react";
-import {
-  useState,
-  useRef,
-  useEffect,
-  ChangeEvent,
-  FormEventHandler,
-} from "react";
-import { Bot, Send, RotateCcw } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Bot, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
@@ -17,13 +11,6 @@ import { Input } from "@/components/ui/input";
 import ChatMessage from "@/app/components/chat_message";
 import TypingIndicator from "@/app/components/typing_indicator";
 import ProgressIndicator from "@/app/components/progress_indicator";
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-  showRating?: boolean;
-  id?: string;
-};
 
 export default function BurnoutChat() {
   const { messages, input, append, handleInputChange, handleSubmit, status } =
@@ -38,8 +25,8 @@ export default function BurnoutChat() {
         }
       },
     });
-  const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
-  const [assessmentComplete, setAssessmentComplete] = useState(false);
+  const [activeQuestionId] = useState<string | null>(null);
+  const [assessmentComplete] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [currentStage, setCurrentStage] = useState<number>(0);
