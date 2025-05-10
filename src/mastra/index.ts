@@ -8,9 +8,9 @@ export const mastra = new Mastra({
   agents: {
     burnoutTest: burnoutTestAgent,
   },
-  storage: new LibSQLStore({
-    url: ":memory:",
-  }),
+  // storage: new LibSQLStore({
+  //   url: ":memory:",
+  // }),
   // logger: createLogger({
   //   name: "Mastra",
   //   level: "info",
