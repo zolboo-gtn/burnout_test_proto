@@ -27,7 +27,7 @@ export default function ProgressIndicator({
   for (let i = 0; i < currentStage - 1; i++) {
     completedQuestions += stages[i].questions;
   }
-  completedQuestions += currentQuestion - 1;
+  completedQuestions += currentQuestion;
 
   const progressPercentage = Math.round(
     (completedQuestions / totalQuestions) * 100
