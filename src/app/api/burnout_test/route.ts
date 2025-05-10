@@ -1,4 +1,3 @@
-import { PostgresStore } from "@mastra/pg";
 import { NextResponse } from "next/server";
 
 import { mastra } from "@/mastra";
@@ -31,11 +30,6 @@ export async function POST(request: Request) {
 
     const { messages } = await request.json();
 
-    mastra.setStorage(
-      new PostgresStore({
-        connectionString: process.env.DATABASE_URL!,
-      })
-    );
     const agent = mastra.getAgent("burnoutTest");
 
     const result = await agent.stream(messages);

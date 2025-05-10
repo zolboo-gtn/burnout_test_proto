@@ -1,8 +1,8 @@
 import { openai } from "@ai-sdk/openai";
 import { Agent } from "@mastra/core/agent";
-import { Memory } from "@mastra/memory";
+// import { Memory } from "@mastra/memory";
 
-import { postgresStorage } from "../storage";
+// import { postgresStorage } from "../storage";
 
 export const burnoutTestAgent = new Agent({
   name: "Burnout Test",
@@ -63,7 +63,7 @@ Your job is to:
 - Provide profession-specific stress-relief tips.
 `,
   model: openai("gpt-4o"),
-  memory: new Memory({
-    storage: postgresStorage,
-  }),
+  // memory: new Memory({
+  //   storage: postgresStorage,
+  // }),
 });
