@@ -59,3 +59,6 @@ export async function POST(request: Request) {
 
   return result.toDataStreamResponse();
 }
+export async function GET() {
+  return new NextResponse("TEST", { status: 200 });
+}
