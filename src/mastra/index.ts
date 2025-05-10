@@ -1,9 +1,8 @@
 import { Mastra } from "@mastra/core/mastra";
 // import { createLogger } from "@mastra/core/logger";
-// import { LibSQLStore } from "@mastra/libsql";
-// import { PostgresStore } from "@mastra/pg";
 
 import { burnoutTestAgent } from "./agents/burnout_test";
+import { libSqlStorage } from "./storage";
 
 export const mastra = new Mastra({
   agents: {
@@ -12,9 +11,7 @@ export const mastra = new Mastra({
   // storage: new PostgresStore({
   //   connectionString: process.env.DATABASE_URL!,
   // }),
-  // storage: new LibSQLStore({
-  //   url: ":memory:",
-  // }),
+  storage: libSqlStorage,
   // logger: createLogger({
   //   name: "Mastra",
   //   level: "info",
