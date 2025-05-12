@@ -1,9 +1,12 @@
+import { Message } from "@ai-sdk/react";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { mastra } from "@/mastra";
 
 export async function POST(request: Request) {
   try {
+    //
     const authHeader = request.headers.get("authorization");
 
     if (!authHeader || !authHeader.startsWith("Basic ")) {
@@ -28,11 +31,32 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { messages } = await request.json();
+    //
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("user-id")?.value;
+    const threadId = cookieStore.get("thread-id")?.value;
 
+    if (!userId || !threadId) {
+      return new NextResponse("User ID or thread ID not found", {
+        status: 400,
+      });
+    }
+
+    //
     const agent = mastra.getAgent("burnoutTest");
 
-    const result = await agent.stream(messages);
+    const { messages } = await request.json();
+    const userMessages = (messages as Message[])?.filter(
+      (message) => message.role === "user"
+    );
+
+    const lastUserMessage =
+      userMessages.length > 0 ? [userMessages[userMessages.length - 1]] : [];
+
+    const result = await agent.stream(lastUserMessage, {
+      resourceId: userId,
+      threadId: threadId,
+    });
 
     return result.toDataStreamResponse();
   } catch (error) {
@@ -40,7 +64,4 @@ export async function POST(request: Request) {
 
     return new NextResponse("TEST", { status: 400 });
   }
-}
-export async function GET() {
-  return new NextResponse("TEST", { status: 200 });
 }

@@ -36,6 +36,14 @@ export default function BurnoutChat() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
 
   useEffect(() => {
+    // Start the assessment by sending dummy input
+    append({
+      role: "user",
+      content: "#START",
+    });
+  }, []);
+
+  useEffect(() => {
     // Scroll to bottom when messages change
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -52,14 +60,6 @@ export default function BurnoutChat() {
       }, 100);
     }
   }, [status]);
-
-  useEffect(() => {
-    // Start the assessment by sending dummy input
-    append({
-      role: "user",
-      content: "#START",
-    });
-  }, []);
 
   const handleRatingSelect = async (rating: number) => {
     // TODO: find a way to do this without hardcoding the stage and question

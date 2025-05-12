@@ -23,6 +23,9 @@ export default function ChatMessage({
   }
 
   const isUser = message.role === "user";
+  const sanitizedContent = message.content
+    .replace(/<working_memory>[\s\S]*?<\/working_memory>/g, "")
+    .trim();
 
   return (
     <div className={cn("flex items-start gap-3", isUser && "justify-end")}>
@@ -40,7 +43,7 @@ export default function ChatMessage({
             : "bg-slate-100 text-slate-800 rounded-tl-none"
         )}
       >
-        <div className="whitespace-pre-wrap">{message.content}</div>
+        <div className="whitespace-pre-wrap">{sanitizedContent}</div>
 
         {!isUser && onRatingSelect && (
           <div className="mt-3 pt-3 border-t border-slate-200">
