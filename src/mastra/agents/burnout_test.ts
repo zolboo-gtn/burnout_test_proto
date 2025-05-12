@@ -5,6 +5,18 @@ import { Memory } from "@mastra/memory";
 
 import { postgresStorage } from "../storage";
 
+const memory = new Memory({
+  storage: postgresStorage,
+  options: {
+    lastMessages: 1,
+    workingMemory: {
+      enabled: true,
+      // TODO: use tool-call
+      use: "text-stream",
+      template: `User Info:\n- language:\n- profession:\n- stage_number:\n- question_number:`,
+    },
+  },
+});
 export const burnoutTestAgent = new Agent({
   name: "Burnout Test",
   instructions: `
@@ -121,16 +133,5 @@ Provide **2-3 targeted tips** depending on the user's role.
 `,
   model: openai("gpt-4o"),
   // model: anthropic("claude-3-5-sonnet-20240620"),
-  memory: new Memory({
-    storage: postgresStorage,
-    options: {
-      lastMessages: 1,
-      workingMemory: {
-        enabled: true,
-        // TODO: use tool-call
-        use: "text-stream",
-        template: `User Info:\n- language:\n- profession:\n- stage_number:\n- question_number:`,
-      },
-    },
-  }),
+  memory,
 });
