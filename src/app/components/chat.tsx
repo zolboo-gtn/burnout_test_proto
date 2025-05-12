@@ -29,7 +29,7 @@ export default function BurnoutChat() {
       },
     });
   const [activeQuestionId] = useState<string | null>(null);
-  const [assessmentComplete] = useState(false);
+  const [assessmentComplete, setAssessmentComplete] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [currentStage, setCurrentStage] = useState<number>(0);
@@ -43,6 +43,18 @@ export default function BurnoutChat() {
   }, [messages]);
 
   useEffect(() => {
+    // Scroll to bottom with delay after the streaming is completed
+    if (status === "ready") {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    // Start the assessment by sending dummy input
     append({
       role: "user",
       content: "#START",
@@ -50,6 +62,10 @@ export default function BurnoutChat() {
   }, []);
 
   const handleRatingSelect = async (rating: number) => {
+    // TODO: find a way to do this without hardcoding the stage and question
+    if (currentStage === 3 && currentQuestion === 8) {
+      setAssessmentComplete(true);
+    }
     await append({
       role: "user",
       content: rating.toString(),
@@ -85,6 +101,7 @@ export default function BurnoutChat() {
           ]}
           currentStage={currentStage}
           currentQuestion={currentQuestion}
+          assessmentComplete={assessmentComplete}
         />
       )}
 
@@ -105,6 +122,7 @@ export default function BurnoutChat() {
                 key={message.id}
                 message={message}
                 onRatingSelect={
+                  !assessmentComplete &&
                   status === "ready" &&
                   currentStage.toString() === stage &&
                   currentQuestion.toString() === question

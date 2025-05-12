@@ -9,12 +9,14 @@ interface ProgressIndicatorProps {
   stages: Stage[];
   currentStage: number;
   currentQuestion: number;
+  assessmentComplete: boolean;
 }
 
 export default function ProgressIndicator({
   stages,
   currentStage,
   currentQuestion,
+  assessmentComplete,
 }: ProgressIndicatorProps) {
   // Calculate overall progress percentage
   const totalQuestions = stages.reduce(
@@ -27,11 +29,11 @@ export default function ProgressIndicator({
   for (let i = 0; i < currentStage - 1; i++) {
     completedQuestions += stages[i].questions;
   }
-  completedQuestions += currentQuestion;
+  completedQuestions += currentQuestion - 1;
 
-  const progressPercentage = Math.round(
-    (completedQuestions / totalQuestions) * 100
-  );
+  const progressPercentage = assessmentComplete
+    ? 100
+    : Math.round((completedQuestions / totalQuestions) * 100);
 
   return (
     <div className="px-4 py-3 bg-white border-b">
